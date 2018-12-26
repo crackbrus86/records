@@ -2,7 +2,7 @@ const path = require('path');
 
 module.exports = {
     entry: {
-        editRecords: "./src/EdirRecordsPage/index.tsx"
+        editRecords: "./src/EditRecordsPage/index.tsx"
     },
     mode: "development",
     output: {
