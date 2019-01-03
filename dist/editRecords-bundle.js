@@ -1999,6 +1999,40 @@ ReactDOM.render(React.createElement(Hello_1.Hello, { compiler: "TypeScript(Edit!
 
 /***/ }),
 
+/***/ "./src/api.services/api.services.ts":
+/*!******************************************!*\
+  !*** ./src/api.services/api.services.ts ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var axios_1 = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+var RequestTypes;
+(function (RequestTypes) {
+    RequestTypes["POST"] = "POST";
+    RequestTypes["GET"] = "GET";
+})(RequestTypes = exports.RequestTypes || (exports.RequestTypes = {}));
+exports.callApi = function (props) {
+    if (!props.url || !props.type)
+        throw new Error("Required parameters were not send");
+    switch (props.type) {
+        case RequestTypes.GET:
+            return axios_1.default.get(props.url, {
+                params: props.data
+            });
+        case RequestTypes.POST:
+            return axios_1.default.post(props.url, props.data);
+        default:
+            return;
+    }
+};
+
+
+/***/ }),
+
 /***/ "./src/components/Hello.tsx":
 /*!**********************************!*\
   !*** ./src/components/Hello.tsx ***!
@@ -2023,7 +2057,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ "react");
-var axios_1 = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+var CallApi = __webpack_require__(/*! ../api.services/api.services */ "./src/api.services/api.services.ts");
 var Hello = /** @class */ (function (_super) {
     __extends(Hello, _super);
     function Hello(props) {
@@ -2031,7 +2065,13 @@ var Hello = /** @class */ (function (_super) {
     }
     Hello.prototype.componentDidMount = function () {
         var path = "../wp-content/plugins/records/api/LookupController/";
-        axios_1.default.get(path + 'GetDivisionsLkp.php').then(function (response) {
+        // axios.get(path + 'GetDivisionsLkp.php').then((response) => {
+        // });
+        CallApi.callApi({ url: path + 'GetDivisionsLkp.php', type: CallApi.RequestTypes.GET }).then(function (result) {
+            var response = result.data;
+            if (response.status) {
+                console.log(response.data);
+            }
         });
     };
     Hello.prototype.render = function () {

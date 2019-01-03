@@ -7,6 +7,7 @@ Author: Salivon Eugene
 */
 define('RECORDS_DIR', plugin_dir_path(__FILE__));
 add_action("admin_menu", array("UPFRecords", "initSettings"));
+add_action("admin_init", array("UPFRecords", "initDb"));
 
 class UPFRecords{
     public static $appBuild = "1.0(12.26.18)";
@@ -29,6 +30,10 @@ class UPFRecords{
         </div>
 _END;
        echo $output; 
+    }
+
+    public function initDb(){
+        require_once(RECORDS_DIR . "./dbInit.php");
     }
 }
 ?>
